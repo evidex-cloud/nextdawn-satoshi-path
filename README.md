@@ -4,7 +4,7 @@
 
 灵感来自 [aipath](https://aipath.buynao.com/) 的「路线 → 阶段 → 例子 → 选择」体验。
 
-> 🔗 **在线体验**：`https://你的用户名.github.io/nextdawn-satoshi-path/` （部署到 GitHub Pages 后填上）
+> 🔗 **在线体验**：<https://evidex-cloud.github.io/nextdawn-satoshi-path/>
 
 ## 特性
 
