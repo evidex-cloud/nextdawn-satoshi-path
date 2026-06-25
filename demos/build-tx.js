@@ -36,7 +36,7 @@ export default function mount(root, lang) {
       cur++;
       paint();
       if (cur === steps.length - 1) {
-        msg.innerHTML = en ? "🎉 Transaction broadcast! You just walked a transaction through its entire life from nothing — and finished the whole «NextDawn · Satoshi Path» too." : "🎉 交易已广播！你刚走完一笔交易从无到有的全过程——也走完了整条「聪之路」。";
+        msg.innerHTML = en ? "🎉 Transaction broadcast! You just walked a transaction through its entire life from nothing — and finished the whole «Droplet Labs · Satoshi Path» too." : "🎉 交易已广播！你刚走完一笔交易从无到有的全过程——也走完了整条「聪之路」。";
         next.disabled = true;
       } else msg.textContent = steps[cur].t;
     }

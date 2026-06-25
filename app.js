@@ -1,12 +1,15 @@
-// NextDawn · 聪之路 · Satoshi Path —— 渲染器（双语 + 难度 + persona）
+// Droplet Labs · 聪之路 · Satoshi Path —— 渲染器（双语 + 难度 + persona）
 // 内容在 content/ 下；中文正文 stageX-id.js，英文正文 content/lessons/en/ 同名文件。
 // UI 文案用 t(中,英)。难度 1/2/3 与 persona 标签在 manifest 里。
 
-import { COURSE } from "./content/manifest.js?v=10"; // 改了 manifest 要随 app.js?v 一起 bump，破缓存
+import { COURSE } from "./content/manifest.js?v=11"; // 改了 manifest 要随 app.js?v 一起 bump，破缓存
+
+// 品牌 Logo —— Droplet Labs 水滴 + 内部网络节点，内联 SVG（无背景、随标题字号缩放）
+const LOGO = `<svg class="hd-logo-svg" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Droplet Labs"><defs><linearGradient id="dropletGrad" x1="22" y1="12" x2="80" y2="104" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#264a6e"/><stop offset=".55" stop-color="#3f74a6"/><stop offset="1" stop-color="#6ea3cf"/></linearGradient></defs><path d="M50 10C31 39 18 55 18 74c0 19 15 31 32 31s32-12 32-31C82 55 69 39 50 10Z" stroke="url(#dropletGrad)" stroke-width="3.4" stroke-linejoin="round"/><path d="M45 62 36 51 36 44M50 59V46M57 61 65 52" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36" cy="42" r="2.7" fill="url(#dropletGrad)"/><circle cx="50" cy="43" r="2.7" fill="url(#dropletGrad)"/><circle cx="67" cy="50" r="2.7" fill="url(#dropletGrad)"/><path d="M47 62 58 68 58 80 47 86 36 80 36 68Z" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linejoin="round"/><path d="M36 68 47 74 58 68M47 86V74" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 45 66.4 50.2 72 52 66.4 53.8 64 59 61.6 53.8 56 52 61.6 50.2Z" fill="url(#dropletGrad)"/><path d="M32 92c9 7 27 7 36 0M36 98c7 4 21 4 28 0" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linecap="round"/></svg>`;
 
 const app = document.getElementById("app");
 const PKEY = "satoshi-path-v1";
-const V = "9"; // 内容版本：改了 lessons/ 或 demos/ 后 +1，破除浏览器对动态 import 的缓存
+const V = "10"; // 内容版本：改了 lessons/ 或 demos/ 后 +1，破除浏览器对动态 import 的缓存
 
 /* ---------------- 状态 ---------------- */
 function loadState() {
@@ -98,7 +101,7 @@ function renderRoadmap() {
 
   let html = `
     <header class="hd">
-      <h1 class="hd-title"><span class="hd-logo">₿</span>${L(COURSE, "title")}</h1>
+      <h1 class="hd-title"><span class="hd-logo">${LOGO}</span>${L(COURSE, "title")}</h1>
       <p class="hd-sub">${L(COURSE, "subtitle")}</p>
       <div class="hd-bar">
         <div class="progress">
@@ -125,7 +128,7 @@ function renderRoadmap() {
     </section>`;
 
   if (total > 0 && doneN === total) {
-    html += `<div class="done-banner">${t(`🎉 恭喜！你已读完整条「聪之路」——全部 ${total} 节，从“为什么需要比特币”到“用代码构造一笔交易”。`, `🎉 Congratulations! You've completed the entire NextDawn · Satoshi Path — all ${total} lessons, from “Why Bitcoin” to “build a transaction in code.”`)}</div>`;
+    html += `<div class="done-banner">${t(`🎉 恭喜！你已读完整条「聪之路」——全部 ${total} 节，从“为什么需要比特币”到“用代码构造一笔交易”。`, `🎉 Congratulations! You've completed the entire Droplet Labs · Satoshi Path — all ${total} lessons, from “Why Bitcoin” to “build a transaction in code.”`)}</div>`;
   }
 
   let lastTier = null;
@@ -182,7 +185,7 @@ function sidebarHTML(currentId) {
   const doneN = readyLessons().filter((l) => state.done[l.id]).length;
   const pct = total ? Math.round((doneN / total) * 100) : 0;
   let html = `<nav class="sidebar">
-    <div class="sb-home" data-back><span class="hd-logo">₿</span>${L(COURSE, "title")}</div>
+    <div class="sb-home" data-back><span class="hd-logo">${LOGO}</span>${L(COURSE, "title")}</div>
     <div class="sb-progress">${t("已完成", "Done")} ${doneN}/${total} · ${pct}%</div>`;
   for (const s of COURSE.stages) {
     const color = tierOf(s.tier).color;
@@ -293,7 +296,7 @@ async function renderLesson(id) {
     btn.classList.add("done");
     btn.textContent = t("✓ 已完成本节", "✓ Completed");
     if (readyLessons().every((l) => state.done[l.id])) {
-      btn.insertAdjacentHTML("afterend", `<div class="done-banner" style="margin-top:14px">${t("🎉 你已读完整条「聪之路」！回到路线图，看看你点亮的全程。", "🎉 You've finished the entire NextDawn · Satoshi Path! Head back to the roadmap to see your whole journey lit up.")}</div>`);
+      btn.insertAdjacentHTML("afterend", `<div class="done-banner" style="margin-top:14px">${t("🎉 你已读完整条「聪之路」！回到路线图，看看你点亮的全程。", "🎉 You've finished the entire Droplet Labs · Satoshi Path! Head back to the roadmap to see your whole journey lit up.")}</div>`);
     }
     const nb = app.querySelector(".navbtn-next");
     if (nb) nb.classList.add("pulse");

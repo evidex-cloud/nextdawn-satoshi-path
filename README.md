@@ -1,4 +1,4 @@
-# NextDawn · 聪之路 · Satoshi Path
+# Droplet Labs · 聪之路 · Satoshi Path
 
 一个**本地优先、中英双语**的比特币学习工具：把比特币从浅到深拆成一条主线，让任何零基础的人都能一步步走到「能跑节点、读源码、亲手用代码构造一笔交易」。
 
@@ -99,4 +99,4 @@ satoshi-path/
 
 ---
 
-Developed by **EvideX Research**
+Developed by **Droplet Labs**

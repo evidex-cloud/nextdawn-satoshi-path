@@ -3,8 +3,8 @@
 // 英文正文在 ./content/lessons/en/ 下同名文件；难度与 persona 与语言无关。
 
 export const COURSE = {
-  title: "NextDawn · 聪之路",
-  titleEn: "NextDawn · Satoshi Path",
+  title: "Droplet Labs · 聪之路",
+  titleEn: "Droplet Labs · Satoshi Path",
   subtitle: "从浅到深，一步步理解比特币的全部原理与技术",
   subtitleEn: "From the surface to the depths — understand every principle and technology behind Bitcoin, step by step.",
 

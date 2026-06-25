@@ -1,4 +1,4 @@
-/* NextDawn · 聪之路 · Satoshi Path —— 设计系统 v2
+/* Droplet Labs · 聪之路 · Satoshi Path —— 设计系统 v2
    浅色、高级、克制（受 tempo.xyz 启发）：暖白底 · 炭黑字 · 精炼比特币橙 · Inter 字体。
    所有颜色/圆角/阴影走 CSS 变量。文字用的橙色统一用 --orange-ink（浅底可读），填充用 --orange。 */
 
@@ -79,11 +79,10 @@ a:hover { text-decoration: underline; }
   margin: 0; color: var(--ink); display: flex; align-items: center; gap: 16px;
 }
 .hd-logo {
-  width: 46px; height: 46px; border-radius: 13px;
-  background: var(--orange); color: #fff;
+  height: 1.16em; width: auto; flex: none;
   display: inline-flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 26px; flex: none; box-shadow: var(--shadow-sm);
 }
+.hd-logo svg { height: 100%; width: auto; display: block; }
 .hd-sub { color: var(--muted); margin: 16px 0 0; font-size: 18px; line-height: 1.55; max-width: 60ch; }
 
 .hd-bar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 26px; }
@@ -404,7 +403,7 @@ a:hover { text-decoration: underline; }
 .sidebar { width: 300px; flex: none; position: sticky; top: 28px; align-self: flex-start; max-height: calc(100vh - 56px); overflow-y: auto; padding-right: 8px; }
 .lesson-main { flex: 1; min-width: 0; max-width: 860px; }
 .sb-home { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 17px; margin-bottom: 14px; cursor: pointer; color: var(--ink); }
-.sb-home .hd-logo { width: 28px; height: 28px; font-size: 16px; border-radius: 8px; }
+.sb-home .hd-logo { height: 26px; width: auto; }
 .sb-home:hover { color: var(--orange-ink); }
 .sb-progress { font-size: 12px; color: var(--muted); margin-bottom: 18px; font-weight: 500; }
 .sb-stage { margin-bottom: 16px; }
