@@ -2,7 +2,8 @@
 // 内容在 content/ 下；中文正文 stageX-id.js，英文正文 content/lessons/en/ 同名文件。
 // UI 文案用 t(中,英)。难度 1/2/3 与 persona 标签在 manifest 里。
 
-import { COURSE } from "./content/manifest.js?v=11"; // 改了 manifest 要随 app.js?v 一起 bump，破缓存
+import { COURSE } from "./content/manifest.js?v=12"; // 改了 manifest 要随 app.js?v 一起 bump，破缓存
+import { GLOSSARY } from "./content/glossary.js?v=1"; // 术语小卡片词库；改了它就 +1（并 bump app.js?v）
 
 // 品牌 Logo —— Droplet Labs 水滴 + 内部网络节点，内联 SVG（无背景、随标题字号缩放）
 const LOGO = `<svg class="hd-logo-svg" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Droplet Labs"><defs><linearGradient id="dropletGrad" x1="22" y1="12" x2="80" y2="104" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#264a6e"/><stop offset=".55" stop-color="#3f74a6"/><stop offset="1" stop-color="#6ea3cf"/></linearGradient></defs><path d="M50 10C31 39 18 55 18 74c0 19 15 31 32 31s32-12 32-31C82 55 69 39 50 10Z" stroke="url(#dropletGrad)" stroke-width="3.4" stroke-linejoin="round"/><path d="M45 62 36 51 36 44M50 59V46M57 61 65 52" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="36" cy="42" r="2.7" fill="url(#dropletGrad)"/><circle cx="50" cy="43" r="2.7" fill="url(#dropletGrad)"/><circle cx="67" cy="50" r="2.7" fill="url(#dropletGrad)"/><path d="M47 62 58 68 58 80 47 86 36 80 36 68Z" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linejoin="round"/><path d="M36 68 47 74 58 68M47 86V74" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/><path d="M64 45 66.4 50.2 72 52 66.4 53.8 64 59 61.6 53.8 56 52 61.6 50.2Z" fill="url(#dropletGrad)"/><path d="M32 92c9 7 27 7 36 0M36 98c7 4 21 4 28 0" stroke="url(#dropletGrad)" stroke-width="2.2" stroke-linecap="round"/></svg>`;
@@ -64,6 +65,110 @@ function md(text) {
     if (b.startsWith("> ")) return `<blockquote>${inline(b.replace(/^>\s?/gm, ""))}</blockquote>`;
     return `<p>${inline(b)}</p>`;
   }).join("");
+}
+
+/* ---------------- 术语小卡片 + 课程间交叉引用（渲染后自动处理正文） ---------------- */
+// 阶段.序号 → 课程 id 的映射（用于把「阶段 X.Y」「Stage X.Y」变成可点链接）
+const XREF = (() => {
+  const m = new Map();
+  for (const s of COURSE.stages) {
+    s.lessons.forEach((l, i) => m.set(`${s.n}.${i + 1}`, l.id));
+    if (s.lessons[0]) m.set(`${s.n}`, s.lessons[0].id);
+  }
+  return m;
+})();
+
+const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// 收集正文里可处理的文本节点（跳过代码/链接/标题/演示/测验/已处理过的）
+function lessonTextNodes(root) {
+  const SKIP_TAG = new Set(["CODE", "A", "H1", "H2", "H3", "H4", "H5", "BUTTON", "INPUT", "LABEL", "SELECT", "TEXTAREA", "SCRIPT", "STYLE", "SVG"]);
+  const SKIP_SEL = ".section-h,.breadcrumb,.diff-badge,.lsn-tag,.fallback-note,.depth-toggle,.lsn-nav,#demo-mount,#quiz,.gloss,.xref,.further";
+  const out = [];
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n) {
+      if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      let p = n.parentElement;
+      while (p && p !== root) { if (SKIP_TAG.has(p.tagName)) return NodeFilter.FILTER_REJECT; p = p.parentElement; }
+      if (n.parentElement && n.parentElement.closest(SKIP_SEL)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
+  while (w.nextNode()) out.push(w.currentNode);
+  return out;
+}
+
+// 把一个文本节点里所有正则匹配替换成元素；makeEl 返回 null 则保留原文不处理该匹配
+function wrapInNode(node, regex, makeEl) {
+  const text = node.nodeValue;
+  regex.lastIndex = 0;
+  let m, last = 0, any = false;
+  const frag = document.createDocumentFragment();
+  while ((m = regex.exec(text))) {
+    const el = makeEl(m);
+    if (!el) continue;
+    if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+    frag.appendChild(el);
+    last = m.index + m[0].length;
+    any = true;
+  }
+  if (any) {
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+}
+
+function decorateLesson(root) {
+  if (!root) return;
+  const l = lang();
+
+  // 1) 交叉引用：阶段 X.Y / 回扣 X.Y / Stage X.Y / callback X.Y → 跳转链接
+  const xrefRe = l === "en"
+    ? /\b(?:Stage|callback)\s+(\d+)(?:\.(\d+))?/gi
+    : /(?:阶段|回扣)\s*(\d+)(?:\.(\d+))?/g;
+  for (const node of lessonTextNodes(root)) {
+    wrapInNode(node, xrefRe, (m) => {
+      const id = XREF.get(m[2] ? `${m[1]}.${m[2]}` : `${m[1]}`);
+      if (!id) return null;
+      const a = document.createElement("a");
+      a.className = "xref"; a.href = `#lesson/${id}`; a.textContent = m[0];
+      return a;
+    });
+  }
+
+  // 2) 术语小卡片：词库里每个词在本节首次出现时加虚线下划线 + hover 定义
+  if (Array.isArray(GLOSSARY) && GLOSSARY.length) {
+    const defByKey = new Map(); const allTerms = [];
+    for (const e of GLOSSARY) {
+      const o = e[l]; if (!o || !o.terms) continue;
+      for (const term of o.terms) {
+        const key = l === "en" ? term.toLowerCase() : term;
+        if (!defByKey.has(key)) defByKey.set(key, o.def); // 靠前的条目优先
+        allTerms.push(term);
+      }
+    }
+    const uniq = [...new Set(allTerms)].sort((a, b) => b.length - a.length);
+    const alt = uniq.map(escRe).join("|");
+    if (alt) {
+      const glossRe = l === "en"
+        ? new RegExp(`(?<![A-Za-z0-9])(?:${alt})(?![A-Za-z0-9])`, "gi")
+        : new RegExp(`(?:${alt})`, "g");
+      const used = new Set();
+      for (const node of lessonTextNodes(root)) {
+        wrapInNode(node, glossRe, (m) => {
+          const key = l === "en" ? m[0].toLowerCase() : m[0];
+          if (used.has(key) || !defByKey.has(key)) return null;
+          used.add(key);
+          const span = document.createElement("span");
+          span.className = "gloss"; span.tabIndex = 0; span.textContent = m[0];
+          const pop = document.createElement("span");
+          pop.className = "gloss-pop"; pop.textContent = defByKey.get(key);
+          span.appendChild(pop);
+          return span;
+        });
+      }
+    }
+  }
 }
 
 /* ---------------- 语言切换按钮（常驻右上角） ---------------- */
@@ -271,6 +376,8 @@ async function renderLesson(id) {
     app.querySelector(".lesson-layout")?.classList.toggle("sb-open");
   });
   app.querySelector(".sb-lesson.active")?.scrollIntoView({ block: "nearest" });
+
+  decorateLesson(app.querySelector(".lesson-main"));
 
   const depth = app.querySelector("#depth");
   const mech = app.querySelector("#mech");

@@ -458,3 +458,31 @@ a:hover { text-decoration: underline; }
   .stage { gap: 14px; }
   .stage-num { width: 40px; height: 40px; font-size: 16px; }
 }
+
+/* ---------- 术语小卡片（hover 显示定义） ---------- */
+.gloss { border-bottom: 1.5px dotted var(--orange-line); cursor: help; position: relative; }
+.gloss:focus { outline: none; }
+.gloss-pop {
+  position: absolute; left: 0; top: calc(100% + 9px); z-index: 60;
+  width: max-content; max-width: min(320px, 80vw);
+  background: var(--ink); color: #f3eee4;
+  font-size: 13.5px; line-height: 1.62; font-weight: 400; letter-spacing: 0;
+  padding: 11px 13px; border-radius: 11px; box-shadow: var(--shadow-md);
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: opacity .15s, transform .15s, visibility .15s;
+  pointer-events: none; white-space: normal; text-align: left;
+}
+.gloss-pop::before {
+  content: ""; position: absolute; bottom: 100%; left: 16px;
+  border: 6px solid transparent; border-bottom-color: var(--ink);
+}
+.gloss:hover .gloss-pop, .gloss:focus .gloss-pop, .gloss:focus-within .gloss-pop {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+
+/* ---------- 课程间交叉引用链接 ---------- */
+a.xref {
+  color: var(--orange-ink); font-weight: 500; text-decoration: none;
+  border-bottom: 1px solid var(--orange-line); white-space: nowrap;
+}
+a.xref:hover { background: var(--orange-soft); border-bottom-color: var(--orange-ink); }

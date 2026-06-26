@@ -118,12 +118,14 @@ export const COURSE = {
     },
     {
       n: 9, tier: "mastery", title: "前沿与高级主题", titleEn: "Frontier & Advanced Topics",
-      blurb: "隐私 · 铭文 · 契约 · 博弈论", blurbEn: "Privacy · Inscriptions · Covenants · Game Theory",
+      blurb: "隐私 · 铭文 · 契约 · 博弈论 · 安全预算 · 量子威胁", blurbEn: "Privacy · Inscriptions · Covenants · Game Theory · Security Budget · Quantum",
       lessons: [
         { id: "privacy", title: "隐私：比特币是“假名”，不是“匿名”", titleEn: "Privacy: Bitcoin Is Pseudonymous, Not Anonymous", module: "./content/lessons/stage9-privacy.js", status: "ready", difficulty: 2, personas: ["curious", "selfcustody", "developer"] },
         { id: "ordinals", title: "Ordinals 与铭文：在聪上刻东西", titleEn: "Ordinals & Inscriptions: Carving Data onto Sats", module: "./content/lessons/stage9-ordinals.js", status: "ready", difficulty: 2, personas: ["curious", "investor"] },
         { id: "covenants", title: "契约与演进：给币加“使用条件”", titleEn: "Covenants & Evolution: Adding Spending Conditions", module: "./content/lessons/stage9-covenants.js", status: "ready", difficulty: 3, personas: ["developer"] },
         { id: "game-theory", title: "博弈论与现实世界：为什么大家选择诚实", titleEn: "Game Theory & the Real World: Why Everyone Stays Honest", module: "./content/lessons/stage9-game-theory.js", status: "ready", difficulty: 2, personas: ["curious", "investor"] },
+        { id: "security-budget", title: "安全预算：补贴归零后，手续费撑得起比特币的安全吗？", titleEn: "The Security Budget: When the Subsidy Is Gone, Can Fees Secure Bitcoin?", module: "./content/lessons/stage9-security-budget.js", status: "ready", difficulty: 3, personas: ["curious", "investor", "developer"] },
+        { id: "quantum-threat", title: "量子计算与比特币：威胁有多近？", titleEn: "Quantum Computing & Bitcoin: How Real Is the Threat?", module: "./content/lessons/stage9-quantum.js", status: "ready", difficulty: 3, personas: ["curious", "investor", "developer"] },
       ],
     },
     {
