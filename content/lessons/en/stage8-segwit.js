@@ -51,7 +51,7 @@ SegWit's core surgery: **take the witness (signature + unlocking script) out of 
 SegWit took the opportunity to redefine block capacity. The block limit changed from "1MB of bytes" to "**4 million weight units (WU)**":
 
 - **Base data** (the non-witness part) counts as **4** WU per byte; **witness data** counts as **1** WU per byte.
-- So **vByte = weight ÷ 4** (the fee accounting from callback 4.4). The more signatures a transaction has (multisig, complex scripts), the more of its bytes land in the "90%-off" witness area, the smaller its effective size, and the more it saves on fees.
+- So **vByte = weight ÷ 4** (the fee accounting from callback 4.4). The more signatures a transaction has (multisig, complex scripts), the more of its bytes land in the "75%-off" witness area, the smaller its effective size, and the more it saves on fees.
 - **Why this particular discount?** It's a carefully tuned knob: it both gives witness data a break (encouraging everyone to use SegWit) and keeps the **maximum block at roughly a 4MB theoretical ceiling, about 1.5–2MB in practice** — modestly scaling capacity while **not actually pushing node burden to the level the big-block camp wanted**, holding the line on decentralization (callback 8.1). One number, soothing both demands at once.
 
 ### ④ Why it qualifies as a soft fork: backward-compatible sleight of hand

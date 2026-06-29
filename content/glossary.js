@@ -225,7 +225,7 @@ export const GLOSSARY = [
     en: { terms: ["Schnorr signature", "Schnorr signatures", "Schnorr"], def: "The signature scheme brought in by Taproot; it is simpler and more efficient and can aggregate many keys’ signatures into one, boosting privacy and scalability." },
   },
   {
-    zh: { terms: ["隐私"], def: "比特币地址虽匿名却完全公开可追溯，故隐私不是默认就有的，需要靠新地址、CoinJoin 等手段主动保护。" },
+    zh: { terms: ["隐私"], def: "比特币地址是化名（伪匿名）而非真正匿名，且完全公开、永久可追溯，故隐私不是默认就有的，需要靠新地址、CoinJoin 等手段主动保护。" },
     en: { terms: ["privacy"], def: "Bitcoin addresses are pseudonymous yet fully public and traceable, so privacy is not automatic and must be protected with fresh addresses, CoinJoin, and similar tactics." },
   },
   {

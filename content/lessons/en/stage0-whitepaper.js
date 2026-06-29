@@ -7,7 +7,7 @@ export default {
   prereqs: ["double-spend"],
 
   oneLiner:
-    "On October 31, 2008, someone using the pseudonym “Satoshi Nakamoto” published a nine-page paper, “Bitcoin: A Peer-to-Peer Electronic Cash System,” proposing to solve double-spending without any trusted third party, using proof-of-work and a public ledger. Three months later, the Bitcoin network went live.",
+    "On October 31, 2008, someone using the pseudonym “Satoshi Nakamoto” published a nine-page paper, “Bitcoin: A Peer-to-Peer Electronic Cash System,” proposing to solve double-spending without any trusted third party, using proof-of-work and a public ledger. About two months later, the Bitcoin network went live.",
 
   intuition: `
 The problems set up in the previous three lessons converge here into a single line: good money must be scarce and can't be arbitrarily issued; fiat fails this and still depends on third parties; and digital cash's double-spending could long only be solved by a center. **Satoshi answered all of these at once.**

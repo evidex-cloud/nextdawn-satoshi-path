@@ -32,7 +32,7 @@ The right side simulates a 2-of-3: sign with each key in turn and watch when eno
 - **Stolen but can't be moved:** a thief who gets only 1 key can't collect 2, so they can't take your coins. It turns the "lose one and it's all over" disaster into "lose one and you're fine."
 - **Lose one and don't fear:** if you lose or damage 1 key, you can still use the remaining 2 to move the coins to safety. **It guards against both theft and loss** — exactly what single-sig can't do.
 - **Can be stored in dispersed locations:** the three keys can be kept on **different devices and in different places** (home / office / a safe deposit box elsewhere), or even entrusted to different people or institutions for joint custody; an attacker would have to breach multiple places at once to have any chance.
-- **Adjustable threshold:** 2-of-3 is a common compromise; for more security use 3-of-5, for more availability use 2-of-2. The point is that **the trade-off between fault tolerance (how many you can lose) and threshold (how many you need to gather)** is yours to set.
+- **Adjustable threshold:** 2-of-3 is a common compromise; for more security (and tolerating more lost keys) use 3-of-5; for strict joint control (both parties required) use 2-of-2 (but it has no fault tolerance — lose either key and the funds are locked). The point is that **the trade-off between fault tolerance (how many you can lose) and threshold (how many you need to gather)** is yours to set.
 
 ### ② Multisig is implemented via script: where the lock lives, who verifies it
 

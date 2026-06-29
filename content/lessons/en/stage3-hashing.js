@@ -45,7 +45,7 @@ Remember these four and you can derive every use of hashing in Bitcoin yourself:
 
 Bitcoin's workhorse hash function is **SHA-256** (Secure Hash Algorithm, output **256 bits = 32 bytes = 64 hexadecimal characters**):
 
-- Whether you feed in 1 byte or 1 GB, the output is always this fixed 256 bits — a huge integer between 0 and 2²⁵⁶−1. 2²⁵⁶ is roughly 10⁷⁷, **the same order of magnitude as the total number of atoms in the observable universe**.
+- Whether you feed in 1 byte or 1 GB, the output is always this fixed 256 bits — a huge integer between 0 and 2²⁵⁶−1. 2²⁵⁶ is roughly 10⁷⁷ — **to put that in perspective, the entire observable universe holds only about 10⁸⁰ atoms**.
 - Many key spots actually use **double SHA-256** (written SHA256d, i.e. hashing twice in a row, \`SHA256(SHA256(x))\`): the block header hash, txid, and Merkle tree all use it. Historically the extra pass guards against a class of "length-extension attacks," an added layer of redundant insurance.
 - The address path is slightly different: the public key goes through SHA-256 first, then **RIPEMD-160** (a 160-bit, shorter output); this step is called HASH160 (detailed in Stage 4).
 

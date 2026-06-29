@@ -32,7 +32,7 @@ The essence of a soft fork is: **the new rules are a subset of the old rules** �
 - So any block that conforms to the **new** rules is **also valid** under the **old** rules. Therefore **old, un-upgraded nodes still accept the new blocks**, the network doesn't split, and the upgrade is smooth.
 - **The cost is that old nodes "can't see everything."** For example, SegWit (BIP141) puts witness data in a place old nodes ignore — an old node thinks "this block is valid" but isn't actually validating that new portion of the rules. It didn't go offline; it was just downgraded to "half-understanding."
 - **Real cases**: **SegWit (2017)** fixed transaction malleability and paved the way for the Lightning Network; **Taproot (2021, BIP340–342)** introduced Schnorr signatures to make multisig more private and space-efficient. Both were soft forks, and neither split off a new coin.
-- **How is it activated?** Historically the **BIP9 version bits** were used (miners "vote" in their blocks, and activation locks in once a threshold is reached); later Taproot used improved mechanisms like **Speedy Trial / BIP8**. The key point: a miner's "vote" is only a **coordination signal** — the rules are still ultimately enforced by full nodes.
+- **How is it activated?** Historically the **BIP9 version bits** were used (miners "vote" in their blocks, and activation locks in once a threshold is reached); later Taproot was activated via **Speedy Trial** (a fast BIP9-style version-bits deployment), with BIP8 debated as an alternative but not used. The key point: a miner's "vote" is only a **coordination signal** — the rules are still ultimately enforced by full nodes.
 
 ### ② Hard forks: loosening the rules, incompatible
 

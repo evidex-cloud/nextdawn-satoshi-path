@@ -47,7 +47,7 @@ That "purpose number" in the first segment is the most worth memorizing, because
 - **84'** → native SegWit (P2WPKH), addresses starting with **bc1q...**, cheaper fees (BIP84).
 - **86'** → Taproot (P2TR), addresses starting with **bc1p...**, better privacy and multisig efficiency (BIP86).
 
-In other words, **just by looking at the first segment of a path, you can predict the address prefix** the wallet will generate — the background of address types is in Stage 7 (the address-types lesson).
+In other words, **just by looking at the first segment of a path, you can predict the address prefix** the wallet will generate — the background of address types is in Stage 4.3 (the address-types lesson).
 
 ### ③ Hardened derivation and the BIP44 standard
 
